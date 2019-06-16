@@ -6,7 +6,7 @@ const fs = require('fs');
 module.exports = {
   async index (req, res) {
     const posts = await Post.find().sort('-createdAt');
-    return res.json(posts)
+    return res.json(posts);
   },
 
   async store (req, res) {
@@ -21,15 +21,15 @@ module.exports = {
     .jpeg({ quality: 70 })
     .toFile(
       path.resolve(req.file.destination, 'resized', fileName)
-    )
-    fs.unlinkSync(req.file.path)
+    );
+    fs.unlinkSync(req.file.path);
     const post = await Post.create({
       author,
       place,
       description,
       hashtags,
       image: fileName
-    })
+    });
 
     req.io.emit('post', post);
     return res.json(post);
